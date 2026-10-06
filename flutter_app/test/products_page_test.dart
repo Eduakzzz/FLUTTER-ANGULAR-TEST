@@ -30,6 +30,17 @@ void main() {
     expect(find.text('No hay productos disponibles.'), findsOneWidget);
   });
 
+  testWidgets('abre detalle usando el ID del producto', (tester) async {
+    final repository = FakeProductRepository();
+    await mount(tester, repository);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(sampleProduct.title));
+    await tester.pumpAndSettle();
+    expect(find.text('Detalle del producto'), findsOneWidget);
+    expect(find.text(sampleProduct.description), findsOneWidget);
+    expect(repository.detailIds, [sampleProduct.id]);
+  });
+
   testWidgets('busca una vez después de 400 ms y limpia la búsqueda', (
     tester,
   ) async {

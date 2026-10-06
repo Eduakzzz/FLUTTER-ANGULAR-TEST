@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/products_provider.dart';
 import '../providers/search_query_provider.dart';
 import '../widgets/product_tile.dart';
+import 'product_details_page.dart';
 
 class ProductsPage extends ConsumerWidget {
   const ProductsPage({super.key});
@@ -48,8 +49,16 @@ class ProductsPage extends ConsumerWidget {
                     : ListView.builder(
                         padding: const EdgeInsets.all(12),
                         itemCount: products.length,
-                        itemBuilder: (context, index) =>
-                            ProductTile(product: products[index]),
+                        itemBuilder: (context, index) => ProductTile(
+                          product: products[index],
+                          onTap: () => Navigator.of(context).push<void>(
+                            MaterialPageRoute(
+                              builder: (context) => ProductDetailsPage(
+                                productId: products[index].id,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
               ),
         ),

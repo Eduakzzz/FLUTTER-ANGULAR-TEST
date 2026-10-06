@@ -16,6 +16,7 @@ class FakeProductRepository implements ProductRepository {
   Object? error;
   int listCalls = 0;
   final List<String> searchQueries = [];
+  final List<int> detailIds = [];
 
   @override
   Future<List<Product>> searchProducts(String query) async {
@@ -33,6 +34,7 @@ class FakeProductRepository implements ProductRepository {
 
   @override
   Future<Product> getProductById(int id) async {
+    detailIds.add(id);
     if (error case final failure?) throw failure;
     return products.firstWhere((product) => product.id == id);
   }
