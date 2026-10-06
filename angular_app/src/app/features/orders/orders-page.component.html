@@ -1,0 +1,131 @@
+<header class="topbar">
+  <div class="brand"><span class="brand-icon" aria-hidden="true">P</span> Panel de pedidos</div>
+  <span class="demo-label">Datos de demostración · DummyJSON</span>
+</header>
+<main>
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">VISTA GENERAL</p>
+      <h1>Pedidos</h1>
+      <p class="description">Consulta los productos y totales de cada pedido.</p>
+    </div>
+    <button
+      class="secondary"
+      type="button"
+      (click)="retry()"
+      [disabled]="state().status === 'loading'"
+    >
+      Actualizar
+    </button>
+  </div>
+  <section class="toolbar" aria-label="Filtros y resumen">
+    <div class="filter">
+      <label for="min-total">Total mínimo</label>
+      <input
+        #minimum
+        id="min-total"
+        type="number"
+        min="0"
+        step="0.01"
+        inputmode="decimal"
+        [value]="minTotal()"
+        (input)="setMinTotal(minimum.value)"
+        aria-describedby="filter-help"
+      />
+      <small id="filter-help">Se aplica al total antes de descuentos.</small>
+    </div>
+    @if (state().status === 'success') {
+      <div class="stat">
+        <span>Pedidos visibles</span
+        ><strong
+          >{{ filteredOrders().length }} <small>de {{ orders().length }}</small></strong
+        >
+      </div>
+      <div class="stat">
+        <span>Total visible</span><strong>{{ displayedTotal() | number: '1.2-2' }}</strong>
+      </div>
+    }
+  </section>
+  <p class="currency-note">Importes de la API. La fuente no especifica una moneda.</p>
+  @if (state().status === 'loading') {
+    <section class="status-panel" role="status">
+      <span class="spinner" aria-hidden="true"></span>
+      <h2>Cargando pedidos…</h2>
+      <p>Estamos consultando el catálogo de pedidos.</p>
+    </section>
+  } @else if (state().status === 'error') {
+    <section class="status-panel" role="alert">
+      <h2>No pudimos cargar los pedidos</h2>
+      <p>Comprueba tu conexión y vuelve a intentarlo.</p>
+      <button type="button" (click)="retry()">Reintentar</button>
+    </section>
+  } @else {
+    @if (selectedOrder(); as order) {
+      <section
+        #orderDetail
+        id="order-detail"
+        class="detail"
+        tabindex="-1"
+        aria-labelledby="detail-title"
+      >
+        <div class="detail-heading">
+          <div>
+            <p class="eyebrow">DETALLE DEL PEDIDO</p>
+            <h2 id="detail-title">Pedido #{{ order.id }} · Usuario {{ order.userId }}</h2>
+          </div>
+          <button class="secondary" type="button" (click)="closeDetail()">Cerrar detalle</button>
+        </div>
+        <ul class="product-list">
+          @for (product of order.products; track product.id) {
+            <li>
+              <img [src]="product.thumbnail" alt="" width="60" height="60" loading="lazy" />
+              <div class="product-description">
+                <h3>{{ product.title }}</h3>
+                <p>
+                  {{ product.quantity }} unidades · Precio unitario:
+                  {{ product.price | number: '1.2-2' }}
+                </p>
+              </div>
+              <div class="product-total">
+                <strong>{{ product.discountedTotal | number: '1.2-2' }}</strong
+                ><small>Con {{ product.discountPercentage | number: '1.0-2' }}% de descuento</small>
+              </div>
+            </li>
+          }
+        </ul>
+        <div class="detail-total">
+          <span>Total con descuentos</span
+          ><strong>{{ order.discountedTotal | number: '1.2-2' }}</strong>
+        </div>
+      </section>
+    }
+    <h2 class="list-heading">Listado de pedidos</h2>
+    @if (filteredOrders().length === 0) {
+      <section class="status-panel" role="status">
+        <h2>
+          {{ orders().length === 0 ? 'Todavía no hay pedidos' : 'Sin resultados para este filtro' }}
+        </h2>
+        <p>
+          {{
+            orders().length === 0
+              ? 'La API devolvió una lista vacía.'
+              : 'Prueba con un total mínimo más bajo.'
+          }}
+        </p>
+        @if (minTotal() > 0) {
+          <button type="button" (click)="minTotal.set(0)">Limpiar filtro</button>
+        }
+      </section>
+    } @else {
+      <div class="orders-grid">
+        @for (order of filteredOrders(); track order.id) {
+          <app-order-card
+            [order]="order"
+            [selected]="selectedOrder()?.id === order.id"
+            (viewDetail)="selectOrder($event)"
+          />
+        }
+      </div>
+    }
+  }
+</main>

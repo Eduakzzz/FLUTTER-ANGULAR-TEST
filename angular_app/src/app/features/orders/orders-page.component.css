@@ -1,0 +1,267 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem max(1.5rem, calc((100vw - 1180px) / 2));
+  background: white;
+  border-bottom: 1px solid #dce4ed;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 700;
+}
+.brand-icon {
+  background: #175fb9;
+  color: white;
+  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+}
+.demo-label,
+.description,
+.currency-note {
+  color: #57677a;
+}
+.demo-label {
+  font-size: 0.78rem;
+}
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+.page-heading,
+.detail-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  color: #175fb9;
+  margin: 0 0 0.65rem;
+}
+h1 {
+  font-size: 2.4rem;
+  letter-spacing: -0.045em;
+  margin: 0;
+}
+.description {
+  font-size: 0.95rem;
+  margin: 0.8rem 0 0;
+}
+.secondary {
+  background: white;
+  color: #264563;
+  border: 1px solid #dce4ed;
+}
+.toolbar {
+  margin-top: 2rem;
+  background: white;
+  border: 1px solid #dce4ed;
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+.filter {
+  flex: 1;
+}
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+input {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  border: 1px solid #c7d3e0;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  color: inherit;
+  background: #fbfcfe;
+  font: inherit;
+}
+small {
+  color: #57677a;
+  font-size: 0.74rem;
+}
+.filter small {
+  display: block;
+  margin-top: 0.5rem;
+}
+.stat span {
+  display: block;
+  font-size: 0.8rem;
+  color: #57677a;
+}
+.stat strong {
+  display: block;
+  font-size: 1.5rem;
+  margin-top: 0.45rem;
+}
+.stat small {
+  font-weight: 400;
+}
+.currency-note {
+  font-size: 0.75rem;
+  margin: 0.75rem 0 2rem;
+}
+.list-heading {
+  font-size: 1rem;
+  margin: 0 0 1rem;
+}
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.status-panel {
+  background: white;
+  border: 1px solid #dce4ed;
+  border-radius: 16px;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.status-panel h2 {
+  font-size: 1.2rem;
+}
+.status-panel p {
+  color: #57677a;
+  font-size: 0.9rem;
+}
+.spinner {
+  display: inline-block;
+  border: 3px solid #dbe9fa;
+  border-top-color: #175fb9;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.detail {
+  background: white;
+  border: 1px solid #c3d6ee;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.detail h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+.product-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid #edf1f5;
+}
+.product-list img {
+  object-fit: contain;
+  background: #f3f6fa;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.product-description {
+  flex: 1;
+  min-width: 0;
+}
+.product-description h3 {
+  font-size: 0.9rem;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.product-description p {
+  font-size: 0.78rem;
+  color: #57677a;
+  margin: 0.5rem 0 0;
+}
+.product-total {
+  text-align: right;
+}
+.product-total small {
+  display: block;
+  margin-top: 0.3rem;
+}
+.detail-total {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  border-top: 1px solid #dce4ed;
+  padding-top: 1.2rem;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 960px) {
+  .orders-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .toolbar {
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 640px) {
+  .demo-label {
+    display: none;
+  }
+  main {
+    padding: 1.7rem 1rem 3rem;
+  }
+  .orders-grid {
+    grid-template-columns: 1fr;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .filter {
+    flex-basis: 100%;
+  }
+  .page-heading,
+  .detail-heading {
+    align-items: flex-start;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  .detail {
+    padding: 1rem;
+  }
+  .product-list li {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .product-total {
+    width: 100%;
+  }
+  .detail-total {
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

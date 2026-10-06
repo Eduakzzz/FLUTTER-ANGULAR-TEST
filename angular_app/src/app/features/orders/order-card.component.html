@@ -1,0 +1,27 @@
+<article class="order-card" [class.selected]="selected()">
+  <div class="card-heading">
+    <h3>Pedido #{{ order().id }}</h3>
+    <span class="user-label">Usuario {{ order().userId }}</span>
+  </div>
+  <p class="amount">{{ order().total | number: '1.2-2' }}</p>
+  <p class="amount-label">Total antes de descuentos</p>
+  <div class="order-meta">
+    <span>{{ order().totalProducts }} productos</span>
+    <span>{{ order().totalQuantity }} unidades</span>
+  </div>
+  <div class="card-footer">
+    <div>
+      <span class="amount-label">Con descuentos</span>
+      <strong>{{ order().discountedTotal | number: '1.2-2' }}</strong>
+    </div>
+    <button
+      type="button"
+      [attr.aria-label]="'Ver detalle del pedido ' + order().id"
+      [attr.aria-expanded]="selected()"
+      [attr.aria-controls]="selected() ? 'order-detail' : null"
+      (click)="viewDetail.emit(order().id)"
+    >
+      Ver detalle <span aria-hidden="true">↗</span>
+    </button>
+  </div>
+</article>

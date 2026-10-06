@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+.order-card {
+  padding: 1.4rem;
+  border: 1px solid #dce4ed;
+  border-radius: 16px;
+  background: white;
+  height: 100%;
+}
+.order-card.selected {
+  border-color: #165dba;
+  box-shadow: 0 0 0 2px #165dba20;
+}
+.card-heading,
+.card-footer,
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+}
+h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.user-label {
+  background: #edf3fa;
+  color: #365473;
+  border-radius: 20px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.75rem;
+}
+.amount {
+  margin: 1.4rem 0 0.25rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.amount-label {
+  color: #57677a;
+  font-size: 0.78rem;
+  margin: 0;
+  display: block;
+}
+.order-meta {
+  justify-content: flex-start;
+  color: #57677a;
+  font-size: 0.8rem;
+  margin: 1.1rem 0;
+}
+.order-meta span + span {
+  border-left: 1px solid #dce4ed;
+  padding-left: 0.75rem;
+}
+.card-footer {
+  border-top: 1px solid #edf1f5;
+  padding-top: 1rem;
+}
+strong {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+}
+button {
+  padding: 0.6rem 0.7rem;
+  background: #eef5ff;
+  color: #135cb5;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
