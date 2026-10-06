@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'features/products/presentation/pages/products_page.dart';
+
 void main() {
   runApp(const ProviderScope(child: MainApp()));
 }
@@ -10,9 +12,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Mini Catálogo',
-      home: Scaffold(body: Center(child: Text('Base de Flutter preparada.'))),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(colorSchemeSeed: const Color(0xff176b64)),
+      home: const ProductsPage(),
     );
   }
 }

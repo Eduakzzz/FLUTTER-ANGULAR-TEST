@@ -1,6 +1,6 @@
 # Prueba técnica: Flutter y Angular
 
-Aplicación Flutter preparada para un mini catálogo con Riverpod. La pantalla inicial muestra un texto estático.
+Mini catálogo Flutter con Riverpod y productos de DummyJSON.
 
 ## Requisitos previos
 
@@ -18,7 +18,7 @@ Para utilizar un servidor web, ejecuta `flutter run -d web-server` y abre la dir
 
 ## Arquitectura
 
-`main.dart` inicia una aplicación Material dentro de `ProviderScope`, que proporciona el contenedor de Riverpod. La pantalla inicial todavía no consulta productos.
+`main.dart` inicia una aplicación Material dentro de `ProviderScope`, que proporciona el contenedor de Riverpod. El listado observa un `FutureProvider` y presenta carga, error con reintento y datos vacíos.
 
 Los productos se organizan por responsabilidad:
 
@@ -36,4 +36,5 @@ Las dependencias están declaradas en `pubspec.yaml` y sus versiones resueltas e
 cd flutter_app
 dart format .
 flutter analyze
+flutter test
 ```
