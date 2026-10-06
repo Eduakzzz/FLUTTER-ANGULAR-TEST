@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../cart/presentation/pages/cart_page.dart';
+import '../../../cart/presentation/widgets/cart_button.dart';
 import '../providers/products_provider.dart';
 import '../providers/search_query_provider.dart';
 import '../widgets/product_tile.dart';
@@ -9,7 +11,16 @@ class ProductsPage extends ConsumerWidget {
   const ProductsPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) => Scaffold(
-    appBar: AppBar(title: const Text('Mini Catálogo')),
+    appBar: AppBar(
+      title: const Text('Mini Catálogo'),
+      actions: [
+        CartButton(
+          onPressed: () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (context) => const CartPage()),
+          ),
+        ),
+      ],
+    ),
     body: Column(
       children: [
         Padding(

@@ -30,6 +30,38 @@ void main() {
     expect(find.text('No hay productos disponibles.'), findsOneWidget);
   });
 
+  testWidgets('carrito conserva cantidades y contador entre pantallas', (
+    tester,
+  ) async {
+    await mount(tester, FakeProductRepository());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(sampleProduct.title));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Agregar al carrito'));
+    await tester.tap(find.text('Agregar al carrito'));
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Carrito: 1 unidades'), findsOneWidget);
+    await tester.tap(find.byTooltip('Carrito: 1 unidades'));
+    await tester.pumpAndSettle();
+    expect(find.text('Total: \$12.50'), findsOneWidget);
+    await tester.tap(find.byTooltip('Aumentar cantidad de Producto de prueba'));
+    await tester.pumpAndSettle();
+    expect(find.text('Total: \$25.00'), findsOneWidget);
+    expect(find.byTooltip('Carrito: 2 unidades'), findsOneWidget);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Carrito: 2 unidades'), findsOneWidget);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Carrito: 2 unidades'), findsOneWidget);
+    await tester.tap(find.byTooltip('Carrito: 2 unidades'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Quitar Producto de prueba'));
+    await tester.pumpAndSettle();
+    expect(find.text('Tu carrito está vacío.'), findsOneWidget);
+    expect(find.byTooltip('Carrito: 0 unidades'), findsOneWidget);
+  });
+
   testWidgets('abre detalle usando el ID del producto', (tester) async {
     final repository = FakeProductRepository();
     await mount(tester, repository);

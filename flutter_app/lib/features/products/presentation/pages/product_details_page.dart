@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../cart/presentation/pages/cart_page.dart';
+import '../../../cart/presentation/providers/cart_provider.dart';
+import '../../../cart/presentation/widgets/cart_button.dart';
 import '../providers/product_details_provider.dart';
 
 class ProductDetailsPage extends ConsumerWidget {
@@ -8,7 +11,16 @@ class ProductDetailsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => Scaffold(
-    appBar: AppBar(title: const Text('Detalle del producto')),
+    appBar: AppBar(
+      title: const Text('Detalle del producto'),
+      actions: [
+        CartButton(
+          onPressed: () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (context) => const CartPage()),
+          ),
+        ),
+      ],
+    ),
     body: ref
         .watch(productDetailsProvider(productId))
         .when(
@@ -67,6 +79,19 @@ class ProductDetailsPage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(product.description),
+                    const SizedBox(height: 24),
+                    FilledButton.icon(
+                      onPressed: () {
+                        ref.read(cartProvider.notifier).add(product);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Producto agregado al carrito.'),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.add_shopping_cart),
+                      label: const Text('Agregar al carrito'),
+                    ),
                   ],
                 ),
               ),
