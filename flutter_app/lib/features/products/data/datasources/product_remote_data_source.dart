@@ -19,6 +19,13 @@ class ProductRemoteDataSource {
       'limit': '$limit',
       'skip': '$skip',
     });
+    return _fetchProducts(uri);
+  }
+
+  Future<List<Product>> searchProducts(String query) =>
+      _fetchProducts(Uri.https(_apiHost, '/products/search', {'q': query}));
+
+  Future<List<Product>> _fetchProducts(Uri uri) async {
     final response = await _client.get(uri);
     _ensureSuccessfulResponse(response);
 

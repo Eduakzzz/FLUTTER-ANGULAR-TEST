@@ -15,6 +15,14 @@ class FakeProductRepository implements ProductRepository {
   List<Product> products = [sampleProduct];
   Object? error;
   int listCalls = 0;
+  final List<String> searchQueries = [];
+
+  @override
+  Future<List<Product>> searchProducts(String query) async {
+    searchQueries.add(query);
+    if (error case final failure?) throw failure;
+    return products;
+  }
 
   @override
   Future<List<Product>> getProducts({int limit = 20, int skip = 0}) async {

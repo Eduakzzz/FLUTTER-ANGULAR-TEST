@@ -30,6 +30,27 @@ void main() {
     expect(find.text('No hay productos disponibles.'), findsOneWidget);
   });
 
+  testWidgets('busca una vez después de 400 ms y limpia la búsqueda', (
+    tester,
+  ) async {
+    final repository = FakeProductRepository();
+    await mount(tester, repository);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'ph');
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.enterText(find.byType(TextField), 'phone');
+    await tester.pump(const Duration(milliseconds: 399));
+    expect(repository.searchQueries, isEmpty);
+    await tester.pump(const Duration(milliseconds: 1));
+    await tester.pumpAndSettle();
+    expect(repository.searchQueries, ['phone']);
+    expect(repository.listCalls, 1);
+    await tester.enterText(find.byType(TextField), '');
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+    expect(repository.listCalls, 2);
+  });
+
   testWidgets('permite reintentar después de un error', (tester) async {
     final repository = FakeProductRepository()..error = Exception('Sin red');
     await mount(tester, repository);
