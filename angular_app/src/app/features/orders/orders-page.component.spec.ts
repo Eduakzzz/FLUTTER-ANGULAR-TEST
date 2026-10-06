@@ -112,4 +112,26 @@ describe('OrdersPageComponent', () => {
     fixture.destroy();
     expect(request.cancelled).toBe(true);
   });
+
+  it('replaces the outstanding request when refreshing', () => {
+    const previous = http.expectOne('https://dummyjson.com/carts?limit=0');
+    fixture.componentInstance.retry();
+    expect(previous.cancelled).toBe(true);
+    loadOrders();
+    expect(element.querySelectorAll('app-order-card')).toHaveLength(2);
+  });
+
+  it('normalizes an invalid minimum and closes the selected detail', () => {
+    loadOrders();
+    fixture.componentInstance.setMinTotal('-10');
+    expect(fixture.componentInstance.minTotal()).toBe(0);
+    fixture.componentInstance.setMinTotal('invalid');
+    expect(fixture.componentInstance.minTotal()).toBe(0);
+    fixture.componentInstance.selectOrder(order.id);
+    fixture.detectChanges();
+    expect(element.querySelector('#order-detail')).not.toBeNull();
+    element.querySelector<HTMLButtonElement>('#order-detail button')!.click();
+    fixture.detectChanges();
+    expect(element.querySelector('#order-detail')).toBeNull();
+  });
 });
