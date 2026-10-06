@@ -43,7 +43,9 @@
         >
       </div>
       <div class="stat">
-        <span>Total visible</span><strong>{{ displayedTotal() | number: '1.2-2' }}</strong>
+        <span>Suma de pedidos visibles</span>
+        <strong>{{ displayedTotal() | number: '1.2-2' }}</strong>
+        <small>Antes de descuentos</small>
       </div>
     }
   </section>
@@ -87,16 +89,20 @@
                   {{ product.quantity }} unidades · Precio unitario:
                   {{ product.price | number: '1.2-2' }}
                 </p>
+                <p>Subtotal sin descuento: {{ product.total | number: '1.2-2' }}</p>
               </div>
               <div class="product-total">
+                <small>Subtotal con descuento</small>
                 <strong>{{ product.discountedTotal | number: '1.2-2' }}</strong
-                ><small>Con {{ product.discountPercentage | number: '1.0-2' }}% de descuento</small>
+                ><small
+                  >Descuento aplicado: {{ product.discountPercentage | number: '1.0-2' }}%</small
+                >
               </div>
             </li>
           }
         </ul>
         <div class="detail-total">
-          <span>Total con descuentos</span
+          <span>Total del pedido con descuentos</span
           ><strong>{{ order.discountedTotal | number: '1.2-2' }}</strong>
         </div>
       </section>

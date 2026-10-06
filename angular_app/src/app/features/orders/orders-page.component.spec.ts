@@ -113,6 +113,26 @@ describe('OrdersPageComponent', () => {
     expect(request.cancelled).toBe(true);
   });
 
+  it('distinguishes unit price, line subtotals and the visible orders sum', () => {
+    loadOrders();
+    fixture.componentInstance.selectOrder(order.id);
+    fixture.detectChanges();
+    const product = element.querySelector('.product-list li')!;
+    expect(product.querySelector('.product-description')?.textContent).toContain(
+      '2 unidades · Precio unitario: 50.00',
+    );
+    expect(product.textContent).toContain('Subtotal sin descuento: 100.00');
+    expect(product.querySelector('.product-total')?.textContent).toContain(
+      'Subtotal con descuento',
+    );
+    expect(product.querySelector('.product-total strong')?.textContent).toBe('90.00');
+    expect(product.textContent).toContain('Descuento aplicado: 10%');
+    expect(element.querySelector('.toolbar')?.textContent).toContain('Suma de pedidos visibles');
+    expect(element.querySelector('.detail-total')?.textContent).toContain(
+      'Total del pedido con descuentos',
+    );
+  });
+
   it('replaces the outstanding request when refreshing', () => {
     const previous = http.expectOne('https://dummyjson.com/carts?limit=0');
     fixture.componentInstance.retry();
