@@ -18,7 +18,15 @@ Para utilizar un servidor web, ejecuta `flutter run -d web-server` y abre la dir
 
 ## Arquitectura
 
-`main.dart` inicia una aplicación Material dentro de `ProviderScope`, que proporciona el contenedor de Riverpod.
+`main.dart` inicia una aplicación Material dentro de `ProviderScope`, que proporciona el contenedor de Riverpod. La pantalla inicial todavía no consulta productos.
+
+Los productos se organizan por responsabilidad:
+
+- `domain`: `Product` y el contrato `ProductRepository`.
+- `data`: `ProductRemoteDataSource` realiza HTTP contra DummyJSON y `ProductRepositoryImpl` implementa el contrato.
+- `presentation/providers`: `productRepositoryProvider` construye e inyecta el repositorio y administra el ciclo de vida del cliente HTTP.
+
+`Product.fromJson` realiza el mapeo manual de un modelo pequeño para mantener explícita la conversión JSON sin dependencias de generación. Sus campos son `final` y el datasource entrega listas no modificables.
 
 Las dependencias están declaradas en `pubspec.yaml` y sus versiones resueltas en `pubspec.lock`.
 
