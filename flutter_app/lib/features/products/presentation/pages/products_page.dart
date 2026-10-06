@@ -32,7 +32,8 @@ class ProductsPage extends ConsumerWidget {
               prefixIcon: Icon(Icons.search),
               border: OutlineInputBorder(),
             ),
-            onChanged: ref.read(searchQueryProvider.notifier).updateQuery,
+            onChanged: (value) =>
+                ref.read(searchQueryProvider.notifier).updateQuery(value),
           ),
         ),
         Expanded(
