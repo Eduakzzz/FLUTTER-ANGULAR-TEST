@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/features/products/domain/entities/product.dart';
 import 'package:flutter_app/features/products/presentation/pages/products_page.dart';
 import 'package:flutter_app/features/products/presentation/providers/product_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +30,39 @@ void main() {
   testWidgets('muestra vacío', (tester) async {
     await mount(tester, FakeProductRepository()..products = []);
     await tester.pumpAndSettle();
+    expect(find.text('No hay productos disponibles.'), findsOneWidget);
+  });
+
+  testWidgets('desmontar cancela el debounce pendiente', (tester) async {
+    final repository = FakeProductRepository();
+    await mount(tester, repository);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'phone');
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(repository.searchQueries, isEmpty);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('una respuesta vieja no reemplaza la búsqueda actual', (
+    tester,
+  ) async {
+    final repository = ControlledSearchRepository();
+    await mount(tester, repository);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'old');
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump();
+    await tester.enterText(find.byType(TextField), 'new');
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump();
+    repository.pending['new']!.complete([]);
+    await tester.pumpAndSettle();
+    expect(find.text('No hay productos disponibles.'), findsOneWidget);
+    repository.pending['old']!.complete([sampleProduct]);
+    await tester.pumpAndSettle();
+    expect(find.text(sampleProduct.title), findsNothing);
     expect(find.text('No hay productos disponibles.'), findsOneWidget);
   });
 
@@ -105,4 +141,15 @@ void main() {
     expect(find.text(sampleProduct.title), findsOneWidget);
     expect(repository.listCalls, 2);
   });
+}
+
+class ControlledSearchRepository extends FakeProductRepository {
+  final pending = <String, Completer<List<Product>>>{};
+
+  @override
+  Future<List<Product>> searchProducts(String query) {
+    final completer = Completer<List<Product>>();
+    pending[query] = completer;
+    return completer.future;
+  }
 }
