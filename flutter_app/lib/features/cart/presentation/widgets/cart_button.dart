@@ -8,6 +8,7 @@ class CartButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // watch mantiene el badge sincronizado con las cantidades.
     final count = ref.watch(cartCountProvider);
     return IconButton(
       tooltip: 'Carrito: $count unidades',

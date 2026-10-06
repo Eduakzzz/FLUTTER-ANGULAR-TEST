@@ -21,6 +21,7 @@
   <section class="toolbar" aria-label="Filtros y resumen">
     <div class="filter">
       <label for="min-total">Total mínimo</label>
+      <!-- #minimum referencia el input; [] pasa datos y () recibe eventos. -->
       <input
         #minimum
         id="min-total"
@@ -47,6 +48,7 @@
     }
   </section>
   <p class="currency-note">Importes de la API. La fuente no especifica una moneda.</p>
+  <!-- @if elige la vista según el estado actual. -->
   @if (state().status === 'loading') {
     <section class="status-panel" role="status">
       <span class="spinner" aria-hidden="true"></span>
@@ -118,7 +120,9 @@
       </section>
     } @else {
       <div class="orders-grid">
+        <!-- @for recorre pedidos; track conserva identidad por ID. -->
         @for (order of filteredOrders(); track order.id) {
+          <!-- El output entrega su ID en $event al contenedor. -->
           <app-order-card
             [order]="order"
             [selected]="selectedOrder()?.id === order.id"

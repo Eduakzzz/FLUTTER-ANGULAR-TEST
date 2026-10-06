@@ -9,6 +9,7 @@ class Product {
     required this.thumbnail,
   });
 
+  // final impide reasignar los campos del producto.
   final int id;
   final String title;
   final String description;
@@ -17,12 +18,14 @@ class Product {
   final double rating;
   final String thumbnail;
 
+  // Map: claves String y valores Object que pueden ser null (?).
   factory Product.fromJson(Map<String, Object?> json) {
     return Product(
       id: json['id'] as int,
       title: json['title'] as String,
       description: json['description'] as String,
       category: json['category'] as String,
+      // num acepta enteros o decimales; normalizamos a double.
       price: (json['price'] as num).toDouble(),
       rating: (json['rating'] as num).toDouble(),
       thumbnail: json['thumbnail'] as String,

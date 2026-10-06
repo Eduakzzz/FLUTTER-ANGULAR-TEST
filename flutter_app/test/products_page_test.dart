@@ -12,6 +12,7 @@ void main() {
   Future<void> mount(WidgetTester tester, FakeProductRepository repository) =>
       tester.pumpWidget(
         ProviderScope(
+          // La pantalla usa el fake para evitar HTTP real.
           overrides: [productRepositoryProvider.overrideWithValue(repository)],
           child: const MaterialApp(home: ProductsPage()),
         ),

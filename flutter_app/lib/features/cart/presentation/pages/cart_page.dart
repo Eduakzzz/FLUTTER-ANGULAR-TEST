@@ -8,6 +8,7 @@ class CartPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Observa lista y total; las reglas permanecen en el notifier.
     final items = ref.watch(cartProvider);
     final total = ref.watch(cartTotalProvider);
     return Scaffold(
@@ -44,6 +45,7 @@ class CartPage extends ConsumerWidget {
                                   IconButton(
                                     tooltip:
                                         'Reducir cantidad de ${item.product.title}',
+                                    // Deshabilita disminuir cuando la cantidad es uno.
                                     onPressed: item.quantity > 1
                                         ? () => ref
                                               .read(cartProvider.notifier)

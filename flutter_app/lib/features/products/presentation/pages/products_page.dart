@@ -7,6 +7,7 @@ import '../providers/search_query_provider.dart';
 import '../widgets/product_tile.dart';
 import 'product_details_page.dart';
 
+// ConsumerWidget aporta WidgetRef para consumir providers.
 class ProductsPage extends ConsumerWidget {
   const ProductsPage({super.key});
   @override
@@ -32,11 +33,13 @@ class ProductsPage extends ConsumerWidget {
               prefixIcon: Icon(Icons.search),
               border: OutlineInputBorder(),
             ),
+            // read ejecuta una acción puntual sin suscribir el widget.
             onChanged: (value) =>
                 ref.read(searchQueryProvider.notifier).updateQuery(value),
           ),
         ),
         Expanded(
+          // watch actualiza la UI; when elige carga, error o datos.
           child: ref
               .watch(productsProvider)
               .when(
@@ -49,6 +52,7 @@ class ProductsPage extends ConsumerWidget {
                       const Text('No se pudieron cargar los productos.'),
                       const SizedBox(height: 12),
                       FilledButton.icon(
+                        // invalidate descarta el resultado y vuelve a consultar.
                         onPressed: () => ref.invalidate(productsProvider),
                         icon: const Icon(Icons.refresh),
                         label: const Text('Reintentar'),
@@ -63,6 +67,7 @@ class ProductsPage extends ConsumerWidget {
                         itemCount: products.length,
                         itemBuilder: (context, index) => ProductTile(
                           product: products[index],
+                          // Abre el detalle pasando el ID; void no devuelve datos.
                           onTap: () => Navigator.of(context).push<void>(
                             MaterialPageRoute(
                               builder: (context) => ProductDetailsPage(

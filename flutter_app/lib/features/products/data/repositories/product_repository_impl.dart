@@ -2,6 +2,7 @@ import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../datasources/product_remote_data_source.dart';
 
+// implements cumple el contrato delegando el acceso al datasource.
 class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl(this._remoteDataSource);
 

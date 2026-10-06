@@ -8,6 +8,7 @@ import 'support/fake_product_repository.dart';
 
 void main() {
   ProviderContainer containerFor(FakeProductRepository repository) =>
+      // Contenedor aislado; el override sustituye el repositorio real.
       ProviderContainer.test(
         overrides: [productRepositoryProvider.overrideWithValue(repository)],
       );
@@ -15,6 +16,7 @@ void main() {
   test('listado obtiene datos del repositorio sobrescrito', () async {
     final repository = FakeProductRepository();
     final container = containerFor(repository);
+    // listen mantiene activa la consulta autoDispose durante la prueba.
     container.listen(productsProvider, (previous, next) {});
     expect(await container.read(productsProvider.future), repository.products);
     expect(repository.listCalls, 1);

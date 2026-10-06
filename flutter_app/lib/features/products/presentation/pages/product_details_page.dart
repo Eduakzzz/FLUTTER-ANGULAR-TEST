@@ -21,6 +21,7 @@ class ProductDetailsPage extends ConsumerWidget {
         ),
       ],
     ),
+    // Observa la consulta family correspondiente a este ID.
     body: ref
         .watch(productDetailsProvider(productId))
         .when(
@@ -82,6 +83,7 @@ class ProductDetailsPage extends ConsumerWidget {
                     const SizedBox(height: 24),
                     FilledButton.icon(
                       onPressed: () {
+                        // .notifier obtiene el controlador que modifica el carrito.
                         ref.read(cartProvider.notifier).add(product);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

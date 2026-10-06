@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/product.dart';
 
+// Presentación: recibe un producto y delega el toque al callback.
 class ProductTile extends StatelessWidget {
   const ProductTile({required this.product, this.onTap, super.key});
   final Product product;

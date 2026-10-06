@@ -10,6 +10,7 @@ describe('OrdersService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      // Sustituye la red por peticiones controladas desde la prueba.
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(OrdersService);

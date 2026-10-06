@@ -1,3 +1,4 @@
+// interface describe datos; readonly protege asignaciones al compilar.
 export interface OrderProduct {
   readonly id: number;
   readonly title: string;
@@ -19,6 +20,7 @@ export interface Order {
   readonly totalQuantity: number;
 }
 
+// Tipos de la respuesta; no validan JSON durante la ejecución.
 export interface OrdersResponse {
   readonly carts: readonly Order[];
   readonly total: number;

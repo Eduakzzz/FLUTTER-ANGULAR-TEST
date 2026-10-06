@@ -9,6 +9,7 @@ class ProductRemoteDataSource {
 
   static const _apiHost = 'dummyjson.com';
 
+  // Cliente inyectado; el prefijo _ lo hace privado a esta biblioteca.
   final http.Client _client;
 
   Future<List<Product>> fetchProducts({
@@ -26,9 +27,11 @@ class ProductRemoteDataSource {
       _fetchProducts(Uri.https(_apiHost, '/products/search', {'q': query}));
 
   Future<List<Product>> _fetchProducts(Uri uri) async {
+    // await espera HTTP sin bloquear la interfaz.
     final response = await _client.get(uri);
     _ensureSuccessfulResponse(response);
 
+    // Decodifica JSON y comprueba su estructura antes de mapearlo.
     final Object? decoded = jsonDecode(response.body);
     if (decoded is! Map<String, Object?>) {
       throw const FormatException('Expected a products response object.');
@@ -39,6 +42,7 @@ class ProductRemoteDataSource {
       throw const FormatException('Expected a products list in the response.');
     }
 
+    // Publica productos en una lista que no admite mutaciones.
     return List<Product>.unmodifiable(
       productsJson.map((productJson) {
         if (productJson is! Map<String, Object?>) {
